@@ -1,3 +1,15 @@
+
+# Neuromitra
+
+An AI-powered learning and communication assistant designed for specially-abled children.
+It’s not a medical tool — it’s an assistive platform that helps children, families, and teachers in daily life.
+
+## Key Features
+
+- **Communication Aid**: Converts text ↔ speech ↔ symbols in multiple Indian languages. Helps kids express themselves at home and in class.
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
