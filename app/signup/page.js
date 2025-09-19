@@ -4,10 +4,8 @@ import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 import { FiUserPlus } from 'react-icons/fi';
 
-import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../firebase';
-import { doc, setDoc } from 'firebase/firestore';
-const provider = new GoogleAuthProvider();
+// Temporary in-memory user data
+const users = [];
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -15,30 +13,19 @@ export default function SignupPage() {
   const [username, setUsername] = useState('');
   const router = useRouter();
 
-  const handleSignup = async (e) => {
+  const handleSignup = (e) => {
     e.preventDefault();
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      await setDoc(doc(db, 'users', user.uid), {
-        uid: user.uid,
-        email: user.email,
-        username: username
-      });
-      router.push('/profile');
-    } catch (error) {
-      alert(error.message);
-    }
+    const newUser = {
+      uid: String(Date.now()),
+      email,
+      username,
+      photoURL: ""
+    };
+    users.push(newUser);
+    router.push('/profile');
   };
 
-  const handleGoogleSignup = async () => {
-    try {
-      await signInWithPopup(auth, provider);
-      router.push('/profile');
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+  // Google signup removed for temporary storage
 
   return (
     <>

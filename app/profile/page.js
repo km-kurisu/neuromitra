@@ -2,27 +2,17 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { FiUser } from 'react-icons/fi';
-import { auth, db } from "../../firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+// Temporary in-memory user data
+const users = [
+  { uid: "1", email: "test@example.com", username: "TestUser", photoURL: "" },
+  // Add more users as needed
+];
 
 export default function ProfilePage() {
-  const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState(null);
+  const [user, setUser] = useState(users[0]);
+  const [profile, setProfile] = useState(users[0]);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        const docRef = doc(db, "users", currentUser.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setProfile(docSnap.data());
-        }
-      }
-    });
-    return () => unsubscribe();
-  }, []);
+  // No authentication, just use first user in array
 
   return (
     <>

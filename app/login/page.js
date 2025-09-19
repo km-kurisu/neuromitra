@@ -4,34 +4,28 @@ import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 import { FiLogIn } from 'react-icons/fi';
 
-import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase';
-const provider = new GoogleAuthProvider();
+// Temporary in-memory user data
+const users = [
+  { uid: "1", email: "abc@gmail.com", username: "ABC", password: "password", photoURL: "" },
+  // Add more users as needed
+];
 
 export default function LoginPage() {
   const router = useRouter();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      // Username is not used for Firebase Auth, but you can fetch user data after login
-      await signInWithEmailAndPassword(auth, username, password);
-      router.push('/profile');
-    } catch (error) {
-      alert(error.message);
+    const foundUser = users.find(u => u.email === username && u.password === password);
+    if (foundUser) {
+      router.push('/dashboard');
+    } else {
+      alert("Invalid credentials");
     }
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      await signInWithPopup(auth, provider);
-      router.push('/profile');
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+  // Google login removed for temporary storage
 
   return (
     <>
@@ -68,14 +62,7 @@ export default function LoginPage() {
               <FiLogIn className="w-5 h-5" /> Login
             </button>
           </form>
-          <div className="my-4 text-center text-slate-400">or</div>
-          <button
-            className="w-full flex items-center justify-center gap-2 bg-emerald-700 text-white px-6 py-3 rounded-lg shadow hover:bg-emerald-800 transition font-semibold text-lg"
-            onClick={handleGoogleLogin}
-          >
-            <FiLogIn className="w-5 h-5 mr-2" />
-            Sign in with Google
-          </button>
+          {/* Google login removed for temporary storage */}
         </div>
       </div>
     </>
